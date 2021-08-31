@@ -196,6 +196,11 @@ public final class PictureSelectionConfig implements Parcelable {
     public boolean isFallbackVersion2;
     public boolean isFallbackVersion3;
 
+    /**
+     * 后加
+     */
+    public String localMediaPath;
+
 
     protected PictureSelectionConfig(Parcel in) {
         chooseMode = in.readInt();
@@ -314,6 +319,7 @@ public final class PictureSelectionConfig implements Parcelable {
         isFallbackVersion = in.readByte() != 0;
         isFallbackVersion2 = in.readByte() != 0;
         isFallbackVersion3 = in.readByte() != 0;
+        localMediaPath = in.readString();
     }
 
     @Override
@@ -434,6 +440,8 @@ public final class PictureSelectionConfig implements Parcelable {
         dest.writeByte((byte) (isFallbackVersion ? 1 : 0));
         dest.writeByte((byte) (isFallbackVersion2 ? 1 : 0));
         dest.writeByte((byte) (isFallbackVersion3 ? 1 : 0));
+
+        dest.writeString(localMediaPath);
     }
 
     @Override

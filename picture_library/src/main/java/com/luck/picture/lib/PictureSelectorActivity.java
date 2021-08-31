@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -716,11 +717,15 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
 
                 @Override
                 public List<LocalMediaFolder> doInBackground() {
+                    if (!TextUtils.isEmpty(config.localMediaPath)){
+                        return new LocalMediaLoader(getContext()).loadLocalMedia(config.localMediaPath);
+                    }
                     return new LocalMediaLoader(getContext()).loadAllMedia();
                 }
 
                 @Override
                 public void onSuccess(List<LocalMediaFolder> folders) {
+                    Log.d(TAG, "onSuccess: "+folders);
                     PictureThreadUtils.cancel(PictureThreadUtils.getSinglePool());
                     initStandardModel(folders);
                 }

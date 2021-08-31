@@ -16,6 +16,7 @@ import com.luck.picture.lib.entity.LocalMediaFolder;
 import com.luck.picture.lib.tools.SdkVersionUtils;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -154,7 +155,7 @@ public final class LocalMediaLoader {
                         String mimeType = data.getString(mimeTypeColumn);
                         mimeType = TextUtils.isEmpty(mimeType) ? PictureMimeType.ofJPEG() : mimeType;
                         String absolutePath = data.getString(dataColumn);
-                        String url = isAndroidQ ? PictureMimeType.getRealPathUri(id,mimeType) : absolutePath;
+                        String url = isAndroidQ ? PictureMimeType.getRealPathUri(id, mimeType) : absolutePath;
                         // Here, it is solved that some models obtain mimeType and return the format of image / *,
                         // which makes it impossible to distinguish the specific type, such as mi 8,9,10 and other models
                         if (mimeType.endsWith("image/*")) {
@@ -213,7 +214,7 @@ public final class LocalMediaLoader {
                             }
                         }
                         LocalMedia image = LocalMedia.parseLocalMedia(id, url, absolutePath, fileName, folderName, duration, config.chooseMode, mimeType, width, height, size, bucketId, data.getLong(dateAddedColumn));
-                        LocalMediaFolder folder = getImageFolder(url,mimeType, folderName, imageFolders);
+                        LocalMediaFolder folder = getImageFolder(url, mimeType, folderName, imageFolders);
                         folder.setBucketId(image.getBucketId());
                         List<LocalMedia> images = folder.getData();
                         images.add(image);
@@ -253,6 +254,49 @@ public final class LocalMediaLoader {
             }
         }
         return null;
+    }
+
+    /**
+     * 加载指定的路径内容
+     *
+     * @param path
+     * @return
+     */
+    public List<LocalMediaFolder> loadLocalMedia(String path) {
+        File file = new File(path);
+        if (!file.isDirectory()) {
+            return null;
+        }
+        List<LocalMediaFolder> imageFolders = new ArrayList<>();
+        LocalMediaFolder allImageFolder = new LocalMediaFolder();
+        List<LocalMedia> latelyImages = new ArrayList<>();
+
+
+        File[] files = file.listFiles((dir, name) -> {
+            return name.endsWith(".jpeg") || name.endsWith(".jpg");
+        });
+
+        for (File f : files) {
+            LocalMedia image = LocalMedia.parseLocalMedia(f.getAbsolutePath(), 0, config.chooseMode);
+            latelyImages.add(image);
+        }
+
+        if (latelyImages.size() > 0) {
+            sortFolder(imageFolders);
+            imageFolders.add(0, allImageFolder);
+            allImageFolder.setFirstImagePath
+                    (latelyImages.get(0).getPath());
+            allImageFolder.setFirstMimeType(latelyImages.get(0).getMimeType());
+            String title = config.chooseMode == PictureMimeType.ofAudio() ?
+                    mContext.getString(R.string.picture_all_audio)
+                    : mContext.getString(R.string.picture_camera_roll);
+            allImageFolder.setName(title);
+            allImageFolder.setBucketId(-1);
+            allImageFolder.setOfAllType(config.chooseMode);
+            allImageFolder.setCameraFolder(true);
+            allImageFolder.setData(latelyImages);
+        }
+        return imageFolders;
     }
 
     private String getSelection() {
@@ -319,7 +363,7 @@ public final class LocalMediaLoader {
      * @param folderName
      * @return
      */
-    private LocalMediaFolder getImageFolder(String firstPath,String firstMimeType, String folderName, List<LocalMediaFolder> imageFolders) {
+    private LocalMediaFolder getImageFolder(String firstPath, String firstMimeType, String folderName, List<LocalMediaFolder> imageFolders) {
         if (!config.isFallbackVersion) {
             for (LocalMediaFolder folder : imageFolders) {
                 // Under the same folder, return yourself, otherwise create a new folder

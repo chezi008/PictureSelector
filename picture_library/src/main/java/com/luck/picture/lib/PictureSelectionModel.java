@@ -1604,6 +1604,11 @@ public class PictureSelectionModel {
         return this;
     }
 
+    public PictureSelectionModel setLocalMediaPath(String localMediaPath) {
+        selectionConfig.localMediaPath = localMediaPath;
+        return this;
+    }
+
     /**
      * Start to select media and wait for result.
      *
@@ -1824,4 +1829,5 @@ public class PictureSelectionModel {
             throw new NullPointerException("This PictureSelector is Null");
         }
     }
+
 }

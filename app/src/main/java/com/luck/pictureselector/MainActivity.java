@@ -443,6 +443,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void onAddPicClick() {
             boolean mode = cb_mode.isChecked();
             if (mode) {
+                String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+                path = path.concat("/DCIM/Camera");
                 // 进入相册 以下是例子：不需要的api可以不写
                 PictureSelector.create(MainActivity.this)
                         .openGallery(chooseMode)// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
@@ -554,6 +556,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         //.videoQuality()// 视频录制质量 0 or 1
                         //.forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
                         //.forResult(new MyResultCallback(mAdapter));
+                        .setLocalMediaPath(path)
                         .forResult(launcherResult);
 
             } else {
