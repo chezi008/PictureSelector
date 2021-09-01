@@ -1,14 +1,30 @@
 # PictureSelector 2.0
-   一款针对Android平台下的图片选择器，支持从相册获取图片、视频、音频&拍照，支持裁剪(单图or多图裁剪)、压缩、主题自定义配置等功能，支持动态获取权限&适配Android 5.0+系统的开源图片选择框架。<br>
+更改功能：
+
+1、增加用户自定义媒体文件路径，之前默认是读取存储里面的所有媒体文件，现在可以指定某个目录的文件，用于解决某些定制的车载中控等阉割过的机器，无法读取相册媒体。注意：这个改动基于不适用分页策略模式下的
+
+
+
+```
+ PictureSelector.create(MainActivity.this)
+                .openGallery(chooseMode)
+                .isPageStrategy(false)//是否开启分页策略& 每页多少条；默认开启
+                .setLocalMediaPath(path)
+```
+
    
+
+
+
+一款针对Android平台下的图片选择器，支持从相册获取图片、视频、音频&拍照，支持裁剪(单图or多图裁剪)、压缩、主题自定义配置等功能，支持动态获取权限&适配Android 5.0+系统的开源图片选择框架。<br>
+
    [英文版🇺🇸](README.md)
- 
+
    [我的博客地址](http://blog.csdn.net/luck_mw)   
-  
+
    [体验Demo](https://github.com/LuckSiege/PictureSelector/raw/master/app/demo/demo_2021-08-22_091229_v2.7.3-rc07.apk)<br>
-  
-[![](https://jitpack.io/v/LuckSiege/PictureSelector.svg)](https://jitpack.io/#LuckSiege/PictureSelector)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg)](https://github.com/LuckSiege)
+
+[![](https://jitpack.io/v/chezi008/PictureSelector.svg)](https://jitpack.io/#chezi008/PictureSelector)
 [![CSDN](https://img.shields.io/twitter/url/http/blog.csdn.net/luck_mw.svg?style=social)](http://blog.csdn.net/luck_mw)
 [![I](https://img.shields.io/github/issues/LuckSiege/PictureSelector.svg)](https://github.com/LuckSiege/PictureSelector/issues)
 [![Star](https://img.shields.io/github/stars/LuckSiege/PictureSelector.svg)](https://github.com/LuckSiege/PictureSelector)
@@ -186,7 +202,7 @@ Application下实现如下接口
             }
         });
 ```
- 
+
 ## 预览图片 
 ```
 // 预览图片 可自定长按保存路径
@@ -257,29 +273,29 @@ QQ [893855882]() <br>
 
 | 单一模式 | 混选模式 |
 |:-----------:|:-----------:|
-|![](image/home.jpg)|![](image/home_mixed.jpg)| 
+|![](image/home.jpg)|![](image/home_mixed.jpg)|
 
 | 默认风格 | 预览 | 多图裁剪 |
 |:-----------:|:--------:|:---------:|
-|![](image/picture_default_style_1.jpg) | <img src="image/picture_default_style_2.jpg"/> | ![](image/picture_default_style_new_3.jpg)|  
+|![](image/picture_default_style_1.jpg) | <img src="image/picture_default_style_2.jpg"/> | ![](image/picture_default_style_new_3.jpg)|
 
 | 数字风格 | 预览 | 多图裁剪 |
 |:-----------:|:--------:|:---------:|
-|![](image/picture_num_style_new_1.jpg) | ![](image/picture_num_style_new_2.jpg) | ![](image/picture_num_style_new_3.jpg)| 
+|![](image/picture_num_style_new_1.jpg) | ![](image/picture_num_style_new_2.jpg) | ![](image/picture_num_style_new_3.jpg)|
 
 | 白色风格 | 预览 | 单图裁剪 |
 |:-----------:|:--------:|:---------:|
-|![](image/picture_sina_style_1.jpg) | ![](image/picture_sina_style_new_2.jpg) | ![](image/picture_sina_style_new_3.jpg)| 
+|![](image/picture_sina_style_1.jpg) | ![](image/picture_sina_style_new_2.jpg) | ![](image/picture_sina_style_new_3.jpg)|
 
 | 全新风格 | 预览 | 多图裁剪 |
 |:-----------:|:--------:|:---------:|
-|![](image/picture_wechat_style_1.jpg) | ![](image/picture_wechat_style_2.jpg) | ![](image/picture_wechat_style_new_3.jpg)| 
+|![](image/picture_wechat_style_1.jpg) | ![](image/picture_wechat_style_2.jpg) | ![](image/picture_wechat_style_new_3.jpg)|
 
 | 相册目录 | 单选模式 | 头像裁剪|
 |:-----------:|:--------:|:--------:|
-|![](image/picture_wechat_album_style.jpg) |![](image/picture_wechat_single_style_3.jpg) | ![](image/picture_circular_crop_new_style.jpg)| 
+|![](image/picture_wechat_album_style.jpg) |![](image/picture_wechat_single_style_3.jpg) | ![](image/picture_circular_crop_new_style.jpg)|
 
 | 白色风格 | 视频 | 音频 |
 |:-----------:|:-----------:|:--------:|
-|![](image/picture_white_style.jpeg) |![](image/picture_video.jpg) | ![](image/picture_audio.jpg)| 
+|![](image/picture_white_style.jpeg) |![](image/picture_video.jpg) | ![](image/picture_audio.jpg)|
 

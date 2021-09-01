@@ -273,7 +273,13 @@ public final class LocalMediaLoader {
 
 
         File[] files = file.listFiles((dir, name) -> {
-            return name.endsWith(".jpeg") || name.endsWith(".jpg");
+            return name.endsWith(".jpeg")
+                    || name.endsWith(".jpg")
+                    || name.endsWith(".gif")
+                    || name.endsWith(".png")
+                    || name.endsWith(".bmp")
+                    || name.endsWith(".tif")
+                    || name.endsWith(".ico");
         });
 
         for (File f : files) {
